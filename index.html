@@ -24,24 +24,25 @@
         }
 
         .container {
-            padding: 40px; border-radius: 20px;
+            padding: 30px; border-radius: 20px;
             z-index: 10; width: 90%; max-width: 600px; margin: 20px;
             transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .frosted {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(15px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 0 20px rgba(214, 51, 132, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.2rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }
+        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3rem; margin-bottom: 10px; }
         
+        /* Floating Decor */
         .floating-item { position: fixed; top: -50px; pointer-events: none; animation: fall linear infinite; z-index: 1; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* Single Photo - First Page */
+        /* Polaroid - Page 1 */
         .featured-polaroid {
             background: white; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             max-width: 280px; margin: 25px auto; transform: rotate(-3deg);
@@ -49,36 +50,58 @@
         }
         .featured-polaroid img { width: 100%; border-radius: 2px; }
 
-        /* Gallery - Third Page */
-        .grid-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+        /* Scrollable Gallery - Page 3 */
+        .grid-gallery { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; 
+            margin-top: 20px;
+            max-height: 60vh; /* Fixed height for scrolling */
+            overflow-y: auto;
+            padding: 10px;
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #d63384 transparent;
+        }
+
+        .grid-gallery::-webkit-scrollbar { width: 6px; }
+        .grid-gallery::-webkit-scrollbar-thumb { background: #d63384; border-radius: 10px; }
+
         .gallery-item {
             background: white; padding: 8px; border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: 0.4s; cursor: pointer;
+            transition: 0.4s; cursor: zoom-in;
         }
-        .gallery-item:hover { transform: translateY(-10px) rotate(2deg); box-shadow: 0 15px 30px rgba(214, 51, 132, 0.3); }
-        .gallery-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; }
-        .gallery-item p { font-size: 0.75rem; margin: 5px 0 0; color: #d63384; font-family: 'Dancing Script'; }
+        .gallery-item:hover { transform: scale(1.05); }
+        .gallery-item img { width: 100%; height: 150px; object-fit: cover; border-radius: 4px; }
+        .gallery-item p { font-size: 0.8rem; margin: 5px 0 0; color: #d63384; font-family: 'Dancing Script'; }
 
+        /* Fullscreen Overlay */
+        #overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+            cursor: zoom-out;
+        }
+        #overlay img { max-width: 90%; max-height: 85%; border: 5px solid white; border-radius: 5px; }
+
+        /* Buttons & UI */
         .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: 0.3s; margin: 8px; }
         #yesBtn { background: #d63384; color: white; box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3); }
         #noBtn { background-color: #f8f9fa; color: #d63384; position: relative; }
         .nav-btn { background: #ff758c; color: white; margin-top: 20px; }
         .back-btn { background: rgba(85, 85, 85, 0.1); color: #555; font-size: 0.8rem; margin-top: 20px; }
+        .stats-box { margin: 20px 0; font-size: 0.9rem; color: #d63384; font-weight: bold; background: rgba(255,255,255,0.4); padding: 15px; border-radius: 15px; }
+        .jar-section { font-size: 50px; cursor: pointer; margin: 15px 0; transition: transform 0.2s; display: inline-block;}
+        .sparkle { position: fixed; pointer-events: none; transition: transform 1s, opacity 1s; z-index: 9999; }
 
         #secretMessage, #photoGallery { display: none; }
-        
-        .stats-box { margin: 20px 0; font-size: 0.9rem; color: #d63384; font-weight: bold; background: rgba(255,255,255,0.4); padding: 15px; border-radius: 15px; }
-
-        .jar-section { font-size: 50px; cursor: pointer; margin: 15px 0; transition: transform 0.2s; display: inline-block;}
-        .jar-section:hover { transform: scale(1.15) rotate(5deg); }
-
-        .hint { font-size: 0.75rem; color: #d63384; margin-top: 10px; opacity: 0.7; font-weight: bold; }
-        
-        .sparkle { position: fixed; pointer-events: none; transition: transform 1s, opacity 1s; z-index: 9999; }
     </style>
 </head>
 <body onclick="startMusic()">
+
+    <div id="overlay" onclick="this.style.display='none'">
+        <img id="overlayImg" src="">
+    </div>
 
     <audio id="loveSong" loop preload="auto">
         <source src="https://raw.githubusercontent.com/Rayson-cloud/Rayson-love/main/HerTania.mp3" type="audio/mpeg">
@@ -91,7 +114,7 @@
             <p style="font-weight: 600; color: #d63384;">Rayson & Tania ♾️</p>
             
             <div class="featured-polaroid">
-                <img src="main.jpg" alt="Tania" onerror="this.src='https://via.placeholder.com/300x400?text=File+Not+Found+On+Github'">
+                <img src="main.jpg" alt="Tania" onerror="this.src='https://via.placeholder.com/300x400?text=Upload+main.jpg'">
                 <p style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #d63384; margin: 10px 0 0;">Simply Perfect ✨</p>
             </div>
 
@@ -100,24 +123,17 @@
                 <button class="btn" id="yesBtn" onclick="revealMessage()">Yes!</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()">No</button>
             </div>
-            <p class="hint">Tap anywhere for music ❤️</p>
+            <p style="font-size: 0.75rem; color: #d63384; margin-top: 15px;">Tap anywhere for music ❤️</p>
         </div>
 
         <div id="secretMessage">
             <h1>I Love You, Tania! ❤️</h1>
-            
             <div class="stats-box">
-                We have been together for:<br>
-                <span id="timer" style="font-size: 1.2rem;">Calculating love...</span>
+                Together for:<br>
+                <span id="timer" style="font-size: 1.2rem;">...</span>
             </div>
-
-            <div class="jar-section" onclick="showReason()">
-                🏺
-                <p style="font-size: 0.9rem; color: #d63384; font-family: 'Poppins';">Tap the Jar of Reasons</p>
-            </div>
-
-            <p style="margin-top: 10px;">You're the girl of my dreams. Forever yours, Rayson</p>
-            
+            <div class="jar-section" onclick="showReason()">🏺</div>
+            <p>You're the girl of my dreams. Forever yours, Rayson</p>
             <button class="btn nav-btn" onclick="showGallery()">See Our Memories 📸</button>
             <br>
             <button class="btn back-btn" onclick="goBack('main')">← Back</button>
@@ -125,26 +141,10 @@
 
         <div id="photoGallery">
             <h1>Our Journey ♾️</h1>
-            <p style="font-size: 0.8rem; color: #d63384;">Every moment with you is a treasure.</p>
+            <p style="font-size: 0.8rem; color: #d63384;">Click any photo to see it big!</p>
             
-            <div class="grid-gallery">
-                <div class="gallery-item">
-                    <img src="gallery1.jpg" onerror="this.src='https://via.placeholder.com/150'">
-                    <p>That Laugh! 😂</p>
+            <div class="grid-gallery" id="galleryVault">
                 </div>
-                <div class="gallery-item">
-                    <img src="gallery2.jpg" onerror="this.src='https://via.placeholder.com/150'">
-                    <p>Pure Joy ✨</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery3.jpg" onerror="this.src='https://via.placeholder.com/150'">
-                    <p>First Date ☕</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="gallery4.jpg" onerror="this.src='https://via.placeholder.com/150'">
-                    <p>My Everything ❤️</p>
-                </div>
-            </div>
 
             <button class="btn back-btn" onclick="goBack('secret')">← Back</button>
         </div>
@@ -156,12 +156,12 @@
 
         function startMusic() {
             if (!musicStarted) {
-                audio.play().catch(e => console.log("Audio waiting..."));
+                audio.play().catch(() => {});
                 musicStarted = true;
             }
         }
 
-        // Change this date!
+        // Timer Logic
         const startDate = new Date("2025-02-04"); 
         function updateTimer() {
             const now = new Date();
@@ -174,39 +174,31 @@
         }
         setInterval(updateTimer, 1000);
 
-        const reasons = [
-            "Your beautiful smile! ✨",
-            "How you always support me! ❤️",
-            "The way you say 'Mogacho'! 🍓",
-            "Your kindness to everyone! 🍒",
-            "You are simply the best partner! ♾️",
-            "The way you look at me! 🥰"
-        ];
+        // Reasons Jar
         function showReason() {
-            const r = reasons[Math.floor(Math.random() * reasons.length)];
-            alert("Reason: " + r);
+            const reasons = ["Your smile!", "Your kindness!", "How smart you are!", "Your support!", "The way you laugh!"];
+            alert("Reason: " + reasons[Math.floor(Math.random() * reasons.length)]);
         }
 
-        // Sparkle Trail
-        document.addEventListener('mousemove', (e) => {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.innerHTML = "✨";
-            sparkle.style.left = e.clientX + 'px';
-            sparkle.style.top = e.clientY + 'px';
-            sparkle.style.fontSize = Math.random() * 20 + 10 + "px";
-            document.body.appendChild(sparkle);
-            setTimeout(() => {
-                sparkle.style.transform = `translateY(${Math.random() * -100}px) scale(0)`;
-                sparkle.style.opacity = '0';
-            }, 50);
-            setTimeout(() => sparkle.remove(), 1000);
-        });
+        // Generate 17 Gallery Items
+        const vault = document.getElementById('galleryVault');
+        for (let i = 1; i <= 17; i++) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.onclick = function() {
+                document.getElementById('overlayImg').src = `G${i}.jpg`;
+                document.getElementById('overlay').style.display = 'flex';
+            };
+            item.innerHTML = `
+                <img src="G${i}.jpg" onerror="this.src='https://via.placeholder.com/150?text=G${i}'">
+                <p>Chapter ${i} ✨</p>
+            `;
+            vault.appendChild(item);
+        }
 
-        // Navigation Control
+        // Navigation
         function revealMessage() {
             document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('photoGallery').style.display = 'none';
             document.getElementById('secretMessage').style.display = 'block';
             document.getElementById('mainWrapper').classList.add('frosted');
             for(let i=0; i<30; i++) setTimeout(createItem, i * 100);
@@ -218,34 +210,38 @@
         }
 
         function goBack(target) {
-            if (target === 'main') {
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('secretMessage').style.display = 'none';
-                document.getElementById('mainWrapper').classList.remove('frosted');
-            } else if (target === 'secret') {
-                document.getElementById('photoGallery').style.display = 'none';
-                document.getElementById('secretMessage').style.display = 'block';
-            }
+            document.getElementById('photoGallery').style.display = 'none';
+            document.getElementById('secretMessage').style.display = target === 'secret' ? 'block' : 'none';
+            document.getElementById('mainContent').style.display = target === 'main' ? 'block' : 'none';
+            if(target === 'main') document.getElementById('mainWrapper').classList.remove('frosted');
         }
 
+        // Visual Effects
         function createItem() {
-            const symbols = ['♥️', '🍓', '🍒', '🌹', '🪻', '♾️', '🧸', '✨', '🎀'];
             const el = document.createElement('div');
-            el.classList.add('floating-item');
-            el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            el.className = 'floating-item';
+            el.innerHTML = ['❤️', '🍓', '✨'][Math.floor(Math.random()*3)];
             el.style.left = Math.random() * 100 + 'vw';
             el.style.animationDuration = Math.random() * 3 + 4 + 's';
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 7000);
         }
-        setInterval(createItem, 350);
+        setInterval(createItem, 400);
 
         function moveButton() {
             const btn = document.getElementById('noBtn');
             btn.style.position = 'fixed';
-            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            btn.style.left = Math.random() * 80 + 'vw';
+            btn.style.top = Math.random() * 80 + 'vh';
         }
+
+        document.addEventListener('mousemove', (e) => {
+            const s = document.createElement('div');
+            s.className = 'sparkle'; s.innerHTML = '✨';
+            s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 1000);
+        });
     </script>
 </body>
 </html>
