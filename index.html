@@ -8,176 +8,104 @@
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
             font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            text-align: center;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow-x: hidden; text-align: center;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
+            padding: 40px; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            z-index: 10;
-            max-width: 800px;
-            margin: 20px;
+            z-index: 10; max-width: 600px; margin: 20px;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #d63384;
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-        }
+        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.5rem; margin-bottom: 10px; }
+        
+        .floating-item { position: fixed; top: -50px; pointer-events: none; animation: fall linear infinite; z-index: 1; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* Photo Gallery Styling */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 25px 0; }
+        .polaroid { background: white; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-2deg); }
+        .polaroid img { width: 100%; height: 150px; object-fit: cover; }
 
-        .polaroid {
-            background: white;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transform: rotate(-3deg);
-            transition: 0.3s;
-        }
-
-        .polaroid:nth-child(even) { transform: rotate(3deg); }
-
-        .polaroid:hover {
-            transform: scale(1.1) rotate(0deg);
-            z-index: 20;
-        }
-
-        .polaroid img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .polaroid p {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1rem;
-            margin: 5px 0 0 0;
-            color: #333;
-        }
-
-        .buttons {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
+        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: 0.3s; }
         #yesBtn { background-color: #d63384; color: white; }
         #noBtn { background-color: #f8f9fa; color: #d63384; position: relative; }
 
-        .heart {
-            position: fixed;
-            color: #ff4d6d;
-            font-size: 20px;
-            pointer-events: none;
-            animation: float 5s linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        #secretMessage {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 2s;
-        }
-
+        #secretMessage { display: none; animation: fadeIn 2s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        #musicStatus { font-size: 0.8rem; color: #d63384; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
-<body>
+<body onclick="playMusic()">
+
+    <audio id="loveSong" loop preload="auto">
+        <source src="https://docs.google.com/uc?export=open&id=1bvLjrYklqAG0fytLWvNG49Tz8kF2_ZWk" type="audio/wav">
+        <source src="https://drive.google.com/uc?export=download&id=1bvLjrYklqAG0fytLWvNG49Tz8kF2_ZWk" type="audio/wav">
+    </audio>
 
     <div class="container">
         <div id="mainContent">
-            <h1>Hi, Tania Gonsalves!</h1>
-            <p>I put together some of our favorite moments...</p>
+            <h1>For Tania Gonsalves 🍓</h1>
+            <p>You're the cherry on top of my life.</p>
             
             <div class="gallery">
-                <div class="polaroid">
-                    <img src="https://via.placeholder.com/300" alt="Memory 1">
-                    <p>Our First Date</p>
-                </div>
-                <div class="polaroid">
-                    <img src="https://via.placeholder.com/300" alt="Memory 2">
-                    <p>That Big Smile</p>
-                </div>
-                <div class="polaroid">
-                    <img src="https://via.placeholder.com/300" alt="Memory 3">
-                    <p>Forever Yours</p>
-                </div>
+                <div class="polaroid"><img src="https://via.placeholder.com/300" alt="Memory 1"><p>Beautiful ✨</p></div>
+                <div class="polaroid"><img src="https://via.placeholder.com/300" alt="Memory 2"><p>Cherished 🍒</p></div>
             </div>
 
             <h3>Will you be my Valentine?</h3>
             <div class="buttons">
-                <button class="btn" id="yesBtn" onclick="revealMessage()">Yes, Always!</button>
+                <button class="btn" id="yesBtn" onclick="revealMessage()">Yes!</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()">No</button>
             </div>
+            <div id="musicStatus">🎵 Click anywhere to hear our song 🎵</div>
         </div>
 
         <div id="secretMessage">
-            <h1>I knew you'd say yes! ❤️</h1>
-            <p>Tania, you make my life infinitely better just by being in it. Every day with you is Valentine's Day.</p>
-            <p>Love, Rayson</p>
+            <h1>I Love You, Tania! ❤️</h1>
+            <p>You're my "Her." Forever yours, Rayson</p>
         </div>
     </div>
 
     <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+        const audio = document.getElementById('loveSong');
+
+        function playMusic() {
+            audio.play().then(() => {
+                document.getElementById('musicStatus').innerText = "🎵 Playing: JVKE - Her 🎵";
+            }).catch(e => {
+                console.log("Playback error:", e);
+            });
         }
-        setInterval(createHeart, 300);
+
+        function createItem() {
+            const symbols = ['❤️', '🍓', '🍒', '💖'];
+            const el = document.createElement('div');
+            el.classList.add('floating-item');
+            el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 7000);
+        }
+        setInterval(createItem, 350);
 
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
             btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
         }
 
         function revealMessage() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('secretMessage').style.display = 'block';
-            for(let i=0; i<100; i++) {
-                setTimeout(createHeart, i * 30);
-            }
+            for(let i=0; i<50; i++) setTimeout(createItem, i * 100);
         }
     </script>
 </body>
