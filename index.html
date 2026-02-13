@@ -9,67 +9,115 @@
 
         body {
             margin: 0; padding: 0;
-            background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #a1c4fd);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             font-family: 'Poppins', sans-serif;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow-x: hidden; text-align: center;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            z-index: 10; max-width: 600px; margin: 20px;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.5rem; margin-bottom: 10px; }
+        /* Initial Page is transparent, Secret Page has the frosted glass look */
+        .container {
+            padding: 40px; border-radius: 20px;
+            z-index: 10; max-width: 600px; margin: 20px;
+            transition: all 0.5s ease;
+        }
+
+        .frosted {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.5rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
         
         .floating-item { position: fixed; top: -50px; pointer-events: none; animation: fall linear infinite; z-index: 1; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 25px 0; }
-        .polaroid { background: white; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-2deg); }
+        .polaroid { 
+            background: white; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            transform: rotate(-2deg); transition: 0.3s;
+        }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg); }
         .polaroid img { width: 100%; height: 150px; object-fit: cover; }
 
-        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: 0.3s; }
-        #yesBtn { background-color: #d63384; color: white; margin-top: 20px; }
-        #noBtn { background-color: #f8f9fa; color: #d63384; position: relative; margin-top: 20px; }
+        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: 0.3s; margin: 10px; }
+        #yesBtn { background: #d63384; color: white; box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3); }
+        #noBtn { background-color: #f8f9fa; color: #d63384; position: relative; }
+        .back-btn { background: #555; color: white; font-size: 0.8rem; padding: 8px 20px; opacity: 0.7; }
 
-        #secretMessage { display: none; animation: fadeIn 2s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #secretMessage { display: none; }
         
-        /* Subtle hint so she interacts with the page */
-        .hint { font-size: 0.8rem; color: #d63384; margin-top: 10px; opacity: 0.7; }
+        /* Stats Styling */
+        .stats-box { margin: 20px 0; font-size: 0.9rem; color: #d63384; font-weight: bold; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 15px; }
+
+        /* Jar Styling */
+        .jar-section { font-size: 50px; cursor: pointer; margin: 20px 0; transition: transform 0.2s; }
+        .jar-section:hover { transform: scale(1.2); }
+
+        .hint { font-size: 0.8rem; color: #d63384; margin-top: 10px; opacity: 0.7; font-weight: bold; }
+        
+        /* Cursor Trail */
+        .sparkle {
+            position: fixed; pointer-events: none;
+            transition: transform 1s, opacity 1s; z-index: 9999;
+        }
     </style>
 </head>
 <body onclick="startMusic()">
 
     <audio id="loveSong" loop preload="auto">
         <source src="https://raw.githubusercontent.com/Rayson-cloud/Rayson-love/main/HerTania.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
     </audio>
 
-    <div class="container">
+    <div class="container" id="mainWrapper">
         <div id="mainContent">
             <h1>For My Mogacho Sovnsar 🍓♥️</h1>
-            <p>Rayson & Tania ♾️</p>
+            <p style="font-weight: 600; color: #d63384;">Rayson & Tania ♾️</p>
             
             <div class="gallery">
-                <div class="polaroid"><img src="https://via.placeholder.com/300"><p>Beautiful ✨</p></div>
-                <div class="polaroid"><img src="https://via.placeholder.com/300"><p>Cherished 🍒</p></div>
+                <div class="polaroid">
+                    <img src="photo1.jpg" onerror="this.src='https://via.placeholder.com/300?text=Us+1'">
+                    <p style="font-family: 'Dancing Script';">Beautiful ✨</p>
+                </div>
+                <div class="polaroid">
+                    <img src="photo2.jpg" onerror="this.src='https://via.placeholder.com/300?text=Us+2'">
+                    <p style="font-family: 'Dancing Script';">Cherished 🍒</p>
+                </div>
             </div>
 
             <h3>Will you be my Valentine?</h3>
-            <div style="display: flex; justify-content: center; gap: 20px;">
-                <button class="btn" id="yesBtn" onclick="startMusic(); revealMessage();">Yes!</button>
+            <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+                <button class="btn" id="yesBtn" onclick="revealMessage()">Yes!</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()">No</button>
             </div>
-            <p class="hint">Tap anywhere ❤️</p>
+            <p class="hint">Move your mouse & tap anywhere ❤️</p>
         </div>
 
         <div id="secretMessage">
             <h1>I Love You, Tania! ❤️</h1>
+            
+            <div class="stats-box">
+                We have been together for:<br>
+                <span id="timer">Calculating love...</span>
+            </div>
+
+            <div class="jar-section" onclick="showReason()">
+                🏺
+                <p style="font-size: 1rem; color: #d63384;">Tap the Jar of Reasons</p>
+            </div>
+
             <p>You're the girl of my dreams. Forever yours, Rayson</p>
+            
+            <button class="btn back-btn" onclick="goBack()">← Back to Start</button>
         </div>
     </div>
 
@@ -77,16 +125,75 @@
         const audio = document.getElementById('loveSong');
         let musicStarted = false;
 
+        // 1. Start Music
         function startMusic() {
             if (!musicStarted) {
-                audio.play().catch(e => console.log("Playback blocked until user interaction"));
+                audio.play().catch(e => console.log("Audio waiting..."));
                 musicStarted = true;
             }
         }
 
-        // Decorations
+        // 2. Love Timer (Change the date below to your actual anniversary!)
+        const startDate = new Date("2024-02-14"); // YYYY-MM-DD
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+        }
+        setInterval(updateTimer, 1000);
+
+        // 3. Reason Jar
+        const reasons = [
+            "Your beautiful smile! ✨",
+            "How you always support me! ❤️",
+            "The way you say 'Mogacho'! 🍓",
+            "Your kindness to everyone! 🍒",
+            "You are simply the best partner! ♾️",
+            "The way you look at me! 🥰"
+        ];
+        function showReason() {
+            const r = reasons[Math.floor(Math.random() * reasons.length)];
+            alert("Reason: " + r);
+        }
+
+        // 4. Cursor Trail (Sparkles)
+        document.addEventListener('mousemove', (e) => {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.innerHTML = "✨";
+            sparkle.style.left = e.clientX + 'px';
+            sparkle.style.top = e.clientY + 'px';
+            sparkle.style.fontSize = Math.random() * 20 + 10 + "px";
+            document.body.appendChild(sparkle);
+            setTimeout(() => {
+                sparkle.style.transform = `translateY(${Math.random() * -100}px) scale(0)`;
+                sparkle.style.opacity = '0';
+            }, 50);
+            setTimeout(() => sparkle.remove(), 1000);
+        });
+
+        // 5. Navigation
+        function revealMessage() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('secretMessage').style.display = 'block';
+            document.getElementById('mainWrapper').classList.add('frosted');
+            // Explosion
+            for(let i=0; i<30; i++) setTimeout(createItem, i * 100);
+        }
+
+        function goBack() {
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('secretMessage').style.display = 'none';
+            document.getElementById('mainWrapper').classList.remove('frosted');
+        }
+
+        // 6. Decorations
         function createItem() {
-            const symbols = ['❤️', '🍓', '🍒', '💖'];
+            const symbols = ['❤️', '🍓', '🍒', '💖', '✨'];
             const el = document.createElement('div');
             el.classList.add('floating-item');
             el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
@@ -97,17 +204,12 @@
         }
         setInterval(createItem, 350);
 
+        // 7. No Button Logic
         function moveButton() {
             const btn = document.getElementById('noBtn');
             btn.style.position = 'fixed';
             btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
             btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-        }
-
-        function revealMessage() {
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('secretMessage').style.display = 'block';
-            for(let i=0; i<50; i++) setTimeout(createItem, i * 100);
         }
     </script>
 </body>
