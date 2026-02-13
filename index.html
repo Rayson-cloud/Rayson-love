@@ -23,53 +23,59 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Initial Page is transparent, Secret Page has the frosted glass look */
         .container {
             padding: 40px; border-radius: 20px;
-            z-index: 10; max-width: 600px; margin: 20px;
-            transition: all 0.5s ease;
+            z-index: 10; width: 90%; max-width: 600px; margin: 20px;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .frosted {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 0 20px rgba(214, 51, 132, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.5rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.2rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }
         
         .floating-item { position: fixed; top: -50px; pointer-events: none; animation: fall linear infinite; z-index: 1; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 25px 0; }
-        .polaroid { 
-            background: white; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-            transform: rotate(-2deg); transition: 0.3s;
+        /* Single Photo - First Page */
+        .featured-polaroid {
+            background: white; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            max-width: 280px; margin: 25px auto; transform: rotate(-3deg);
+            border-radius: 5px;
         }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg); }
-        .polaroid img { width: 100%; height: 150px; object-fit: cover; }
+        .featured-polaroid img { width: 100%; border-radius: 2px; }
 
-        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: 0.3s; margin: 10px; }
+        /* Gallery - Third Page */
+        .grid-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+        .gallery-item {
+            background: white; padding: 8px; border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: 0.4s; cursor: pointer;
+        }
+        .gallery-item:hover { transform: translateY(-10px) rotate(2deg); box-shadow: 0 15px 30px rgba(214, 51, 132, 0.3); }
+        .gallery-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; }
+        .gallery-item p { font-size: 0.75rem; margin: 5px 0 0; color: #d63384; font-family: 'Dancing Script'; }
+
+        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: 0.3s; margin: 8px; }
         #yesBtn { background: #d63384; color: white; box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3); }
         #noBtn { background-color: #f8f9fa; color: #d63384; position: relative; }
-        .back-btn { background: #555; color: white; font-size: 0.8rem; padding: 8px 20px; opacity: 0.7; }
+        .nav-btn { background: #ff758c; color: white; margin-top: 20px; }
+        .back-btn { background: rgba(85, 85, 85, 0.1); color: #555; font-size: 0.8rem; margin-top: 20px; }
 
-        #secretMessage { display: none; }
+        #secretMessage, #photoGallery { display: none; }
         
-        /* Stats Styling */
-        .stats-box { margin: 20px 0; font-size: 0.9rem; color: #d63384; font-weight: bold; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 15px; }
+        .stats-box { margin: 20px 0; font-size: 0.9rem; color: #d63384; font-weight: bold; background: rgba(255,255,255,0.4); padding: 15px; border-radius: 15px; }
 
-        /* Jar Styling */
-        .jar-section { font-size: 50px; cursor: pointer; margin: 20px 0; transition: transform 0.2s; }
-        .jar-section:hover { transform: scale(1.2); }
+        .jar-section { font-size: 50px; cursor: pointer; margin: 15px 0; transition: transform 0.2s; display: inline-block;}
+        .jar-section:hover { transform: scale(1.15) rotate(5deg); }
 
-        .hint { font-size: 0.8rem; color: #d63384; margin-top: 10px; opacity: 0.7; font-weight: bold; }
+        .hint { font-size: 0.75rem; color: #d63384; margin-top: 10px; opacity: 0.7; font-weight: bold; }
         
-        /* Cursor Trail */
-        .sparkle {
-            position: fixed; pointer-events: none;
-            transition: transform 1s, opacity 1s; z-index: 9999;
-        }
+        .sparkle { position: fixed; pointer-events: none; transition: transform 1s, opacity 1s; z-index: 9999; }
     </style>
 </head>
 <body onclick="startMusic()">
@@ -79,27 +85,22 @@
     </audio>
 
     <div class="container" id="mainWrapper">
+        
         <div id="mainContent">
             <h1>For My Mogacho Sovnsar 🍓♥️</h1>
             <p style="font-weight: 600; color: #d63384;">Rayson & Tania ♾️</p>
             
-            <div class="gallery">
-                <div class="polaroid">
-                    <img src="photo1.jpg" onerror="this.src='https://via.placeholder.com/300?text=Us+1'">
-                    <p style="font-family: 'Dancing Script';">Beautiful ✨</p>
-                </div>
-                <div class="polaroid">
-                    <img src="photo2.jpg" onerror="this.src='https://via.placeholder.com/300?text=Us+2'">
-                    <p style="font-family: 'Dancing Script';">Cherished 🍒</p>
-                </div>
+            <div class="featured-polaroid">
+                <img src="main_photo.jpg" onerror="this.src='https://via.placeholder.com/300x400?text=The+Beautiful+Tania'">
+                <p style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #d63384; margin: 10px 0 0;">Simply Perfect ✨</p>
             </div>
 
             <h3>Will you be my Valentine?</h3>
-            <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: center;">
                 <button class="btn" id="yesBtn" onclick="revealMessage()">Yes!</button>
                 <button class="btn" id="noBtn" onmouseover="moveButton()">No</button>
             </div>
-            <p class="hint">Move your mouse & tap anywhere ❤️</p>
+            <p class="hint">Tap anywhere for music ❤️</p>
         </div>
 
         <div id="secretMessage">
@@ -107,17 +108,45 @@
             
             <div class="stats-box">
                 We have been together for:<br>
-                <span id="timer">Calculating love...</span>
+                <span id="timer" style="font-size: 1.2rem;">Calculating love...</span>
             </div>
 
             <div class="jar-section" onclick="showReason()">
                 🏺
-                <p style="font-size: 1rem; color: #d63384;">Tap the Jar of Reasons</p>
+                <p style="font-size: 0.9rem; color: #d63384; font-family: 'Poppins';">Tap the Jar of Reasons</p>
             </div>
 
-            <p>You're the girl of my dreams. Forever yours, Rayson</p>
+            <p style="margin-top: 10px;">You're the girl of my dreams. Forever yours, Rayson</p>
             
-            <button class="btn back-btn" onclick="goBack()">← Back to Start</button>
+            <button class="btn nav-btn" onclick="showGallery()">See Our Memories 📸</button>
+            <br>
+            <button class="btn back-btn" onclick="goBack('main')">← Back</button>
+        </div>
+
+        <div id="photoGallery">
+            <h1>Our Journey ♾️</h1>
+            <p style="font-size: 0.8rem; color: #d63384;">Every moment with you is a treasure.</p>
+            
+            <div class="grid-gallery">
+                <div class="gallery-item">
+                    <img src="gallery1.jpg" onerror="this.src='https://via.placeholder.com/150'">
+                    <p>That Laugh! 😂</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery2.jpg" onerror="this.src='https://via.placeholder.com/150'">
+                    <p>Pure Joy ✨</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery3.jpg" onerror="this.src='https://via.placeholder.com/150'">
+                    <p>First Date ☕</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery4.jpg" onerror="this.src='https://via.placeholder.com/150'">
+                    <p>My Everything ❤️</p>
+                </div>
+            </div>
+
+            <button class="btn back-btn" onclick="goBack('secret')">← Back</button>
         </div>
     </div>
 
@@ -125,7 +154,6 @@
         const audio = document.getElementById('loveSong');
         let musicStarted = false;
 
-        // 1. Start Music
         function startMusic() {
             if (!musicStarted) {
                 audio.play().catch(e => console.log("Audio waiting..."));
@@ -133,8 +161,8 @@
             }
         }
 
-        // 2. Love Timer (Change the date below to your actual anniversary!)
-        const startDate = new Date("2024-02-14"); // YYYY-MM-DD
+        // Change this date!
+        const startDate = new Date("2024-02-14"); 
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
@@ -146,7 +174,6 @@
         }
         setInterval(updateTimer, 1000);
 
-        // 3. Reason Jar
         const reasons = [
             "Your beautiful smile! ✨",
             "How you always support me! ❤️",
@@ -160,7 +187,7 @@
             alert("Reason: " + r);
         }
 
-        // 4. Cursor Trail (Sparkles)
+        // Sparkle Trail
         document.addEventListener('mousemove', (e) => {
             const sparkle = document.createElement('div');
             sparkle.classList.add('sparkle');
@@ -176,22 +203,31 @@
             setTimeout(() => sparkle.remove(), 1000);
         });
 
-        // 5. Navigation
+        // Navigation Control
         function revealMessage() {
             document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('photoGallery').style.display = 'none';
             document.getElementById('secretMessage').style.display = 'block';
             document.getElementById('mainWrapper').classList.add('frosted');
-            // Explosion
             for(let i=0; i<30; i++) setTimeout(createItem, i * 100);
         }
 
-        function goBack() {
-            document.getElementById('mainContent').style.display = 'block';
+        function showGallery() {
             document.getElementById('secretMessage').style.display = 'none';
-            document.getElementById('mainWrapper').classList.remove('frosted');
+            document.getElementById('photoGallery').style.display = 'block';
         }
 
-        // 6. Decorations
+        function goBack(target) {
+            if (target === 'main') {
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('secretMessage').style.display = 'none';
+                document.getElementById('mainWrapper').classList.remove('frosted');
+            } else if (target === 'secret') {
+                document.getElementById('photoGallery').style.display = 'none';
+                document.getElementById('secretMessage').style.display = 'block';
+            }
+        }
+
         function createItem() {
             const symbols = ['❤️', '🍓', '🍒', '💖', '✨'];
             const el = document.createElement('div');
@@ -204,7 +240,6 @@
         }
         setInterval(createItem, 350);
 
-        // 7. No Button Logic
         function moveButton() {
             const btn = document.getElementById('noBtn');
             btn.style.position = 'fixed';
