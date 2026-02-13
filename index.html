@@ -24,40 +24,33 @@
 
         h1 { font-family: 'Dancing Script', cursive; color: #d63384; font-size: 3.5rem; margin-bottom: 10px; }
         
+        /* Floating items */
         .floating-item { position: fixed; top: -50px; pointer-events: none; animation: fall linear infinite; z-index: 1; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
+        /* Polaroid styling */
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 25px 0; }
         .polaroid { background: white; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-2deg); }
         .polaroid img { width: 100%; height: 150px; object-fit: cover; }
 
-        /* Play Button Styling */
-        .music-controls {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(214, 51, 132, 0.1);
-            border-radius: 15px;
-        }
-
+        /* Pulsing Play Button */
+        .music-controls { margin: 20px 0; }
         .play-btn {
             background-color: #d63384;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            font-weight: 600;
+            color: white; border: none;
+            padding: 15px 30px; border-radius: 50px;
+            font-size: 1.2rem; cursor: pointer; font-weight: 600;
             transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            box-shadow: 0 0 0 0 rgba(214, 51, 132, 0.7);
+            animation: pulse 2s infinite;
+            display: inline-flex; align-items: center; gap: 10px;
         }
 
-        .play-btn:hover { transform: scale(1.05); background-color: #b52a6f; }
-
-        .play-btn.playing { background-color: #4CAF50; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(214, 51, 132, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(214, 51, 132, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(214, 51, 132, 0); }
+        }
 
         .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: 0.3s; }
         #yesBtn { background-color: #d63384; color: white; margin-top: 20px; }
@@ -70,7 +63,7 @@
 <body>
 
     <audio id="loveSong" loop>
-        <source src="https://docs.google.com/uc?export=download&id=1bvLjrYklqAG0fytLWvNG49Tz8kF2_ZWk" type="audio/wav">
+        <source src="https://docs.google.com/uc?export=download&id=1EoJCJBHzcNpVK4G97dTfUcObo_neHlXD" type="audio/wav">
     </audio>
 
     <div class="container">
@@ -98,31 +91,27 @@
 
         <div id="secretMessage">
             <h1>I Love You, Tania! ❤️</h1>
-            <p>You're my "Her." Forever yours, Rayson</p>
+            <p>You're the girl of my dreams. Forever yours, Rayson</p>
         </div>
     </div>
 
     <script>
         const audio = document.getElementById('loveSong');
         const playBtn = document.getElementById('masterPlayBtn');
-        const btnText = document.getElementById('btnText');
-        const playIcon = document.getElementById('playIcon');
 
         function toggleMusic() {
             if (audio.paused) {
                 audio.play();
-                playBtn.classList.add('playing');
-                btnText.innerText = "Music Playing...";
-                playIcon.innerText = "⏸";
+                playBtn.style.animation = "none"; // Stop pulsing once playing
+                document.getElementById('btnText').innerText = "Music Playing...";
+                document.getElementById('playIcon').innerText = "⏸";
             } else {
                 audio.pause();
-                playBtn.classList.remove('playing');
-                btnText.innerText = "Play Our Song";
-                playIcon.innerText = "▶";
+                document.getElementById('btnText').innerText = "Play Our Song";
+                document.getElementById('playIcon').innerText = "▶";
             }
         }
 
-        // --- Decorations ---
         function createItem() {
             const symbols = ['❤️', '🍓', '🍒', '💖'];
             const el = document.createElement('div');
